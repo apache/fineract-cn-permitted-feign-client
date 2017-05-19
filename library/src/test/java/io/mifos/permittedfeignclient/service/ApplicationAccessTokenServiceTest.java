@@ -3,7 +3,6 @@ package io.mifos.permittedfeignclient.service;
 import io.mifos.anubis.config.TenantSignatureRepository;
 import io.mifos.anubis.token.TenantRefreshTokenSerializer;
 import io.mifos.anubis.token.TokenSerializationResult;
-import io.mifos.core.api.context.AutoUserContext;
 import io.mifos.core.lang.ApplicationName;
 import io.mifos.core.lang.AutoTenantContext;
 import io.mifos.core.lang.security.RsaKeyPairFactory;
@@ -24,7 +23,6 @@ public class ApplicationAccessTokenServiceTest {
   private static final String BEARER_TOKEN_MOCK = "bearer token mock";
   private static final String USER_NAME = "user";
   private static final String TENANT_NAME = "tenant";
-  private static final String BEARER_INCOMING_ACCESS_TOKEN_MOCK = "bearer incoming access token mock";
 
   @Test
   public void testHappyCase() {
@@ -50,13 +48,11 @@ public class ApplicationAccessTokenServiceTest {
             tenantRefreshTokenSerializerMock);
 
     try (final AutoTenantContext ignored1 = new AutoTenantContext(TENANT_NAME)) {
-      try (final AutoUserContext ignored2 = new AutoUserContext(USER_NAME, BEARER_INCOMING_ACCESS_TOKEN_MOCK)) {
-        final String accessToken = testSubject.getAccessToken("blah");
-        Assert.assertEquals(BEARER_TOKEN_MOCK, accessToken);
+      final String accessToken = testSubject.getAccessToken(USER_NAME, "blah");
+      Assert.assertEquals(BEARER_TOKEN_MOCK, accessToken);
 
-        final String accessTokenAgain = testSubject.getAccessToken("blah");
-        Assert.assertEquals(BEARER_TOKEN_MOCK, accessTokenAgain);
-      }
+      final String accessTokenAgain = testSubject.getAccessToken(USER_NAME, "blah");
+      Assert.assertEquals(BEARER_TOKEN_MOCK, accessTokenAgain);
     }
   }
 }

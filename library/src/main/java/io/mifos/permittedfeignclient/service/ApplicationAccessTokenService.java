@@ -19,7 +19,6 @@ import io.mifos.anubis.config.TenantSignatureRepository;
 import io.mifos.anubis.security.AmitAuthenticationException;
 import io.mifos.anubis.token.TenantRefreshTokenSerializer;
 import io.mifos.anubis.token.TokenSerializationResult;
-import io.mifos.core.api.util.UserContextHolder;
 import io.mifos.core.lang.ApplicationName;
 import io.mifos.core.lang.TenantContextHolder;
 import io.mifos.core.lang.security.RsaKeyPairFactory;
@@ -112,9 +111,9 @@ public class ApplicationAccessTokenService {
             .build();
   }
 
-  public String getAccessToken(final String endpointSetIdentifier) {
+  public String getAccessToken(final String user, final String endpointSetIdentifier) {
     final TokenCacheKey tokenCacheKey
-            = new TokenCacheKey(UserContextHolder.checkedGetUser(), TenantContextHolder.checkedGetIdentifier(), endpointSetIdentifier);
+            = new TokenCacheKey(user, TenantContextHolder.checkedGetIdentifier(), endpointSetIdentifier);
     final Authentication authentication = accessTokenCache.get(tokenCacheKey);
     return authentication.getAccessToken();
   }

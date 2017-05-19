@@ -18,7 +18,6 @@ package io.mifos.permittedfeignclient.security;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import io.mifos.core.api.util.ApiConstants;
-import io.mifos.core.api.util.UserContext;
 import io.mifos.core.api.util.UserContextHolder;
 import io.mifos.permittedfeignclient.annotation.EndpointSet;
 import io.mifos.permittedfeignclient.service.ApplicationAccessTokenService;
@@ -47,9 +46,9 @@ public class ApplicationTokenedTargetInterceptor implements RequestInterceptor {
 
   @Override
   public void apply(final RequestTemplate template) {
-    template.header(ApiConstants.AUTHORIZATION_HEADER, applicationAccessTokenService.getAccessToken(endpointSetIdentifier));
-    UserContextHolder.getUserContext()
-            .map(UserContext::getUser)
-            .ifPresent(user -> template.header(ApiConstants.USER_HEADER, user));
+    UserContextHolder.getUserContext().ifPresent(userContext -> {
+      template.header(ApiConstants.USER_HEADER, userContext.getUser());
+      template.header(ApiConstants.AUTHORIZATION_HEADER, applicationAccessTokenService.getAccessToken(userContext.getUser(), endpointSetIdentifier));
+    });
   }
 }
