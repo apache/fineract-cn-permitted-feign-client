@@ -19,6 +19,7 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import io.mifos.core.api.util.ApiConstants;
 import io.mifos.core.api.util.UserContextHolder;
+import io.mifos.core.lang.TenantContextHolder;
 import io.mifos.permittedfeignclient.annotation.EndpointSet;
 import io.mifos.permittedfeignclient.service.ApplicationAccessTokenService;
 import org.springframework.util.Assert;
@@ -48,7 +49,7 @@ public class ApplicationTokenedTargetInterceptor implements RequestInterceptor {
   public void apply(final RequestTemplate template) {
     UserContextHolder.getUserContext().ifPresent(userContext -> {
       template.header(ApiConstants.USER_HEADER, userContext.getUser());
-      template.header(ApiConstants.AUTHORIZATION_HEADER, applicationAccessTokenService.getAccessToken(userContext.getUser(), endpointSetIdentifier));
+      template.header(ApiConstants.AUTHORIZATION_HEADER, applicationAccessTokenService.getAccessToken(userContext.getUser(), TenantContextHolder.checkedGetIdentifier(), endpointSetIdentifier));
     });
   }
 }
