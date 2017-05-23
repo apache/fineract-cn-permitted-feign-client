@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017 The Mifos Initiative.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.mifos.permittedfeignclient.service;
 
 import io.mifos.anubis.config.TenantSignatureRepository;
@@ -5,6 +20,7 @@ import io.mifos.anubis.token.TenantRefreshTokenSerializer;
 import io.mifos.anubis.token.TokenSerializationResult;
 import io.mifos.core.lang.ApplicationName;
 import io.mifos.core.lang.AutoTenantContext;
+import io.mifos.core.lang.TenantContextHolder;
 import io.mifos.core.lang.security.RsaKeyPairFactory;
 import io.mifos.identity.api.v1.client.IdentityManager;
 import io.mifos.identity.api.v1.domain.Authentication;
@@ -48,10 +64,13 @@ public class ApplicationAccessTokenServiceTest {
             tenantRefreshTokenSerializerMock);
 
     try (final AutoTenantContext ignored1 = new AutoTenantContext(TENANT_NAME)) {
-      final String accessToken = testSubject.getAccessToken(USER_NAME, "blah");
+      final String accessTokenWithoutCallEndpointSet = testSubject.getAccessToken(USER_NAME, TenantContextHolder.checkedGetIdentifier());
+      Assert.assertEquals(BEARER_TOKEN_MOCK, accessTokenWithoutCallEndpointSet);
+
+      final String accessToken = testSubject.getAccessToken(USER_NAME, TenantContextHolder.checkedGetIdentifier(), "blah");
       Assert.assertEquals(BEARER_TOKEN_MOCK, accessToken);
 
-      final String accessTokenAgain = testSubject.getAccessToken(USER_NAME, "blah");
+      final String accessTokenAgain = testSubject.getAccessToken(USER_NAME, TenantContextHolder.checkedGetIdentifier(), "blah");
       Assert.assertEquals(BEARER_TOKEN_MOCK, accessTokenAgain);
     }
   }

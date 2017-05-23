@@ -15,15 +15,49 @@
  */
 package io.mifos.permittedfeignclient.config;
 
+import feign.Client;
+import feign.Feign;
+import feign.gson.GsonDecoder;
+import feign.gson.GsonEncoder;
 import io.mifos.anubis.config.EnableAnubis;
+import io.mifos.core.api.util.AnnotatedErrorDecoder;
+import io.mifos.core.api.util.TenantedTargetInterceptor;
+import io.mifos.core.api.util.TokenedTargetInterceptor;
+import io.mifos.identity.api.v1.client.IdentityManager;
+import io.mifos.permittedfeignclient.LibraryConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.cloud.netflix.feign.support.SpringMvcContract;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Nonnull;
 
 /**
  * @author Myrle Krantz
  */
 @EnableAnubis
-@EnableFeignClients(basePackages = {"io.mifos.identity.api.v1"})
 @Configuration
 public class PermittedFeignClientConfiguration {
+  @Bean(name = LibraryConstants.LOGGER_NAME)
+  public Logger logger() {
+    return LoggerFactory.getLogger(LibraryConstants.LOGGER_NAME);
+  }
+
+  @Bean
+  public IdentityManager identityManager(
+          final @Nonnull Client feignClient,
+          final @Qualifier(LibraryConstants.LOGGER_NAME) @Nonnull Logger logger) {
+    return Feign.builder()
+            .contract(new SpringMvcContract())
+            .client(feignClient) //Integrates to ribbon.
+            .errorDecoder(new AnnotatedErrorDecoder(logger, IdentityManager.class))
+            .requestInterceptor(new TenantedTargetInterceptor())
+            .requestInterceptor(new TokenedTargetInterceptor())
+            .decoder(new GsonDecoder())
+            .encoder(new GsonEncoder())
+            .target(IdentityManager.class, "https://identity-v1");
+  }
 }
