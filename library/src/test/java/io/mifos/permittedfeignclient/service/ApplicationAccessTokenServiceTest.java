@@ -27,6 +27,7 @@ import io.mifos.identity.api.v1.domain.Authentication;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -57,11 +58,14 @@ public class ApplicationAccessTokenServiceTest {
     Mockito.when(tenantRefreshTokenSerializerMock.build(Mockito.anyObject()))
             .thenReturn(new TokenSerializationResult(BEARER_TOKEN_MOCK, LocalDateTime.now()));
 
+    final Logger loggerMock = Mockito.mock(Logger.class);
+
     final ApplicationAccessTokenService testSubject = new ApplicationAccessTokenService(
             applicationNameMock,
             tenantSignatureRepositoryMock,
             identityManagerMock,
-            tenantRefreshTokenSerializerMock);
+            tenantRefreshTokenSerializerMock,
+            loggerMock);
 
     try (final AutoTenantContext ignored1 = new AutoTenantContext(TENANT_NAME)) {
       final String accessTokenWithoutCallEndpointSet = testSubject.getAccessToken(USER_NAME, TenantContextHolder.checkedGetIdentifier());
