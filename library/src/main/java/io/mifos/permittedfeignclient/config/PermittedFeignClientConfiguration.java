@@ -28,7 +28,6 @@ import io.mifos.permittedfeignclient.LibraryConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.feign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +47,7 @@ public class PermittedFeignClientConfiguration {
 
   @Bean
   public IdentityManager identityManager(
-          final @Nonnull Client feignClient,
+          @SuppressWarnings("SpringJavaAutowiringInspection") final @Nonnull Client feignClient,
           final @Qualifier(LibraryConstants.LOGGER_NAME) @Nonnull Logger logger) {
     return Feign.builder()
             .contract(new SpringMvcContract())
@@ -58,6 +57,6 @@ public class PermittedFeignClientConfiguration {
             .requestInterceptor(new TokenedTargetInterceptor())
             .decoder(new GsonDecoder())
             .encoder(new GsonEncoder())
-            .target(IdentityManager.class, "https://identity-v1");
+            .target(IdentityManager.class, "http://identity-v1");
   }
 }
