@@ -48,8 +48,11 @@ public class ApplicationTokenedTargetInterceptor implements RequestInterceptor {
   @Override
   public void apply(final RequestTemplate template) {
     UserContextHolder.getUserContext().ifPresent(userContext -> {
+      final String accessToken = applicationAccessTokenService.getAccessToken(userContext.getUser(),
+              TenantContextHolder.checkedGetIdentifier(), endpointSetIdentifier);
+
       template.header(ApiConstants.USER_HEADER, userContext.getUser());
-      template.header(ApiConstants.AUTHORIZATION_HEADER, applicationAccessTokenService.getAccessToken(userContext.getUser(), TenantContextHolder.checkedGetIdentifier(), endpointSetIdentifier));
+      template.header(ApiConstants.AUTHORIZATION_HEADER, accessToken);
     });
   }
 }

@@ -57,6 +57,6 @@ public class PermittedFeignClientConfiguration {
             .requestInterceptor(new TokenedTargetInterceptor())
             .decoder(new GsonDecoder())
             .encoder(new GsonEncoder())
-            .target(IdentityManager.class, "http://identity-v1");
+            .target(IdentityManager.class, "http://identity-v1/identity/v1");
   }
 }

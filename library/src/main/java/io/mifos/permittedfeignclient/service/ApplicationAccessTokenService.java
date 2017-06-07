@@ -19,6 +19,8 @@ import io.mifos.anubis.config.TenantSignatureRepository;
 import io.mifos.anubis.security.AmitAuthenticationException;
 import io.mifos.anubis.token.TenantRefreshTokenSerializer;
 import io.mifos.anubis.token.TokenSerializationResult;
+import io.mifos.core.api.context.AutoGuest;
+import io.mifos.core.api.util.NotFoundException;
 import io.mifos.core.lang.ApplicationName;
 import io.mifos.core.lang.AutoTenantContext;
 import io.mifos.core.lang.security.RsaKeyPairFactory;
@@ -97,8 +99,14 @@ public class ApplicationAccessTokenService {
   private Authentication createAccessToken(final TokenCacheKey tokenCacheKey) {
     final String refreshToken = refreshTokenCache.get(tokenCacheKey).getToken();
     try (final AutoTenantContext ignored = new AutoTenantContext(tokenCacheKey.getTenant())) {
-      logger.debug("Getting access token for {}", tokenCacheKey);
-      return identityManager.refresh(refreshToken);
+      try (final AutoGuest ignored2 = new AutoGuest()) {
+        logger.debug("Getting access token for {}", tokenCacheKey);
+        return identityManager.refresh(refreshToken);
+      }
+      catch (final Exception e) {
+        logger.error("Couldn't get access token from identity for {}.", tokenCacheKey, e);
+        throw new NotFoundException("Couldn't get access token");
+      }
     }
   }
 
@@ -121,6 +129,10 @@ public class ApplicationAccessTokenService {
       tokenCacheKey.getEndpointSet().ifPresent(specification::setEndpointSet);
 
       return tenantRefreshTokenSerializer.build(specification);
+    }
+    catch (final Exception e) {
+      logger.error("Couldn't create refresh token for {}.", tokenCacheKey, e);
+      throw new NotFoundException("Couldn't create refresh token.");
     }
   }
 }
