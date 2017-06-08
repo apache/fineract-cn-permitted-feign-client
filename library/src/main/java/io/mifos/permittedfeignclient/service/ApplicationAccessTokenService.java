@@ -19,14 +19,19 @@ import io.mifos.anubis.config.TenantSignatureRepository;
 import io.mifos.anubis.security.AmitAuthenticationException;
 import io.mifos.anubis.token.TenantRefreshTokenSerializer;
 import io.mifos.anubis.token.TokenSerializationResult;
+import io.mifos.core.api.context.AutoGuest;
+import io.mifos.core.api.util.NotFoundException;
 import io.mifos.core.lang.ApplicationName;
 import io.mifos.core.lang.AutoTenantContext;
 import io.mifos.core.lang.security.RsaKeyPairFactory;
 import io.mifos.identity.api.v1.client.IdentityManager;
 import io.mifos.identity.api.v1.domain.Authentication;
+import io.mifos.permittedfeignclient.LibraryConstants;
 import net.jodah.expiringmap.ExpirationPolicy;
 import net.jodah.expiringmap.ExpiringMap;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;
@@ -46,6 +51,7 @@ public class ApplicationAccessTokenService {
   private final TenantSignatureRepository tenantSignatureRepository;
   private final IdentityManager identityManager;
   private final TenantRefreshTokenSerializer tenantRefreshTokenSerializer;
+  private final Logger logger;
 
   private final Map<TokenCacheKey, TokenSerializationResult> refreshTokenCache;
   private final Map<TokenCacheKey, Authentication> accessTokenCache;
@@ -55,12 +61,15 @@ public class ApplicationAccessTokenService {
           final @Nonnull ApplicationName applicationName,
           final @Nonnull TenantSignatureRepository tenantSignatureRepository,
           final @Nonnull IdentityManager identityManager,
-          final @Nonnull TenantRefreshTokenSerializer tenantRefreshTokenSerializer) {
+          final @Nonnull TenantRefreshTokenSerializer tenantRefreshTokenSerializer,
+          @Qualifier(LibraryConstants.LOGGER_NAME) final @Nonnull Logger logger
+  ) {
 
     this.applicationName = applicationName.toString();
     this.tenantSignatureRepository = tenantSignatureRepository;
     this.identityManager = identityManager;
     this.tenantRefreshTokenSerializer = tenantRefreshTokenSerializer;
+    this.logger = logger;
 
     this.refreshTokenCache = ExpiringMap.builder()
             .maxSize(300)
@@ -90,12 +99,21 @@ public class ApplicationAccessTokenService {
   private Authentication createAccessToken(final TokenCacheKey tokenCacheKey) {
     final String refreshToken = refreshTokenCache.get(tokenCacheKey).getToken();
     try (final AutoTenantContext ignored = new AutoTenantContext(tokenCacheKey.getTenant())) {
-      return identityManager.refresh(refreshToken);
+      try (final AutoGuest ignored2 = new AutoGuest()) {
+        logger.debug("Getting access token for {}", tokenCacheKey);
+        return identityManager.refresh(refreshToken);
+      }
+      catch (final Exception e) {
+        logger.error("Couldn't get access token from identity for {}.", tokenCacheKey, e);
+        throw new NotFoundException("Couldn't get access token");
+      }
     }
   }
 
   private TokenSerializationResult createRefreshToken(final TokenCacheKey tokenCacheKey) {
     try (final AutoTenantContext ignored = new AutoTenantContext(tokenCacheKey.getTenant())) {
+      logger.debug("Creating refresh token for {}", tokenCacheKey);
+
       final Optional<RsaKeyPairFactory.KeyPairHolder> optionalSigningKeyPair
               = tenantSignatureRepository.getLatestApplicationSigningKeyPair();
 
@@ -111,6 +129,10 @@ public class ApplicationAccessTokenService {
       tokenCacheKey.getEndpointSet().ifPresent(specification::setEndpointSet);
 
       return tenantRefreshTokenSerializer.build(specification);
+    }
+    catch (final Exception e) {
+      logger.error("Couldn't create refresh token for {}.", tokenCacheKey, e);
+      throw new NotFoundException("Couldn't create refresh token.");
     }
   }
 }
