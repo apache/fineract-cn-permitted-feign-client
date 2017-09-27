@@ -21,6 +21,7 @@ import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import io.mifos.anubis.config.EnableAnubis;
 import io.mifos.core.api.util.AnnotatedErrorDecoder;
+import io.mifos.core.api.util.EmptyBodyInterceptor;
 import io.mifos.core.api.util.TenantedTargetInterceptor;
 import io.mifos.core.api.util.TokenedTargetInterceptor;
 import io.mifos.identity.api.v1.client.IdentityManager;
@@ -55,6 +56,7 @@ public class PermittedFeignClientConfiguration {
             .errorDecoder(new AnnotatedErrorDecoder(logger, IdentityManager.class))
             .requestInterceptor(new TenantedTargetInterceptor())
             .requestInterceptor(new TokenedTargetInterceptor())
+            .requestInterceptor(new EmptyBodyInterceptor())
             .decoder(new GsonDecoder())
             .encoder(new GsonEncoder())
             .target(IdentityManager.class, "http://identity-v1/identity/v1");
