@@ -18,15 +18,15 @@
  */
 package io.mifos.permittedfeignclient.service;
 
-import io.mifos.anubis.config.TenantSignatureRepository;
-import io.mifos.anubis.token.TenantRefreshTokenSerializer;
-import io.mifos.anubis.token.TokenSerializationResult;
-import io.mifos.core.lang.ApplicationName;
-import io.mifos.core.lang.AutoTenantContext;
-import io.mifos.core.lang.TenantContextHolder;
-import io.mifos.core.lang.security.RsaKeyPairFactory;
-import io.mifos.identity.api.v1.client.IdentityManager;
-import io.mifos.identity.api.v1.domain.Authentication;
+import org.apache.fineract.cn.anubis.config.TenantSignatureRepository;
+import org.apache.fineract.cn.anubis.token.TenantRefreshTokenSerializer;
+import org.apache.fineract.cn.anubis.token.TokenSerializationResult;
+import org.apache.fineract.cn.identity.api.v1.client.IdentityManager;
+import org.apache.fineract.cn.identity.api.v1.domain.Authentication;
+import org.apache.fineract.cn.lang.ApplicationName;
+import org.apache.fineract.cn.lang.AutoTenantContext;
+import org.apache.fineract.cn.lang.TenantContextHolder;
+import org.apache.fineract.cn.lang.security.RsaKeyPairFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -71,7 +71,8 @@ public class ApplicationAccessTokenServiceTest {
             loggerMock);
 
     try (final AutoTenantContext ignored1 = new AutoTenantContext(TENANT_NAME)) {
-      final String accessTokenWithoutCallEndpointSet = testSubject.getAccessToken(USER_NAME, TenantContextHolder.checkedGetIdentifier());
+      final String accessTokenWithoutCallEndpointSet = testSubject.getAccessToken(USER_NAME, TenantContextHolder
+          .checkedGetIdentifier());
       Assert.assertEquals(BEARER_TOKEN_MOCK, accessTokenWithoutCallEndpointSet);
 
       final String accessToken = testSubject.getAccessToken(USER_NAME, TenantContextHolder.checkedGetIdentifier(), "blah");

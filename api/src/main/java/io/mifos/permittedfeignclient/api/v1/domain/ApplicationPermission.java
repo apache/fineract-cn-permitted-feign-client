@@ -18,12 +18,11 @@
  */
 package io.mifos.permittedfeignclient.api.v1.domain;
 
-import io.mifos.core.lang.validation.constraints.ValidIdentifier;
-import io.mifos.identity.api.v1.domain.Permission;
-
+import java.util.Objects;
 import javax.annotation.Nullable;
 import javax.validation.Valid;
-import java.util.Objects;
+import org.apache.fineract.cn.identity.api.v1.domain.Permission;
+import org.apache.fineract.cn.lang.validation.constraints.ValidIdentifier;
 
 /**
  * @author Myrle Krantz

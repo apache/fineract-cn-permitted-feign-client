@@ -18,8 +18,8 @@
  */
 package io.mifos.another.service;
 
-import io.mifos.anubis.annotation.AcceptedTokenType;
-import io.mifos.anubis.annotation.Permittable;
+import org.apache.fineract.cn.anubis.annotation.AcceptedTokenType;
+import org.apache.fineract.cn.anubis.annotation.Permittable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

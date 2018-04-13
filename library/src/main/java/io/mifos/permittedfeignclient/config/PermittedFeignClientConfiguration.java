@@ -22,21 +22,20 @@ import feign.Client;
 import feign.Feign;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
-import io.mifos.anubis.config.EnableAnubis;
-import io.mifos.core.api.util.AnnotatedErrorDecoder;
-import io.mifos.core.api.util.EmptyBodyInterceptor;
-import io.mifos.core.api.util.TenantedTargetInterceptor;
-import io.mifos.core.api.util.TokenedTargetInterceptor;
-import io.mifos.identity.api.v1.client.IdentityManager;
 import io.mifos.permittedfeignclient.LibraryConstants;
+import javax.annotation.Nonnull;
+import org.apache.fineract.cn.anubis.config.EnableAnubis;
+import org.apache.fineract.cn.api.util.AnnotatedErrorDecoder;
+import org.apache.fineract.cn.api.util.EmptyBodyInterceptor;
+import org.apache.fineract.cn.api.util.TenantedTargetInterceptor;
+import org.apache.fineract.cn.api.util.TokenedTargetInterceptor;
+import org.apache.fineract.cn.identity.api.v1.client.IdentityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.netflix.feign.support.SpringMvcContract;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.Nonnull;
 
 /**
  * @author Myrle Krantz

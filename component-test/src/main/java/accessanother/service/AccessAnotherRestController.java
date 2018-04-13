@@ -19,7 +19,7 @@
 package accessanother.service;
 
 import accessanother.service.apiforother.AnotherWithApplicationPermissions;
-import io.mifos.anubis.annotation.Permittable;
+import org.apache.fineract.cn.anubis.annotation.Permittable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;

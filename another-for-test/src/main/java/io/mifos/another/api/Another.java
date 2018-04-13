@@ -18,8 +18,8 @@
  */
 package io.mifos.another.api;
 
-import io.mifos.anubis.api.v1.client.Anubis;
-import io.mifos.core.api.util.CustomFeignClientsConfiguration;
+import org.apache.fineract.cn.anubis.api.v1.client.Anubis;
+import org.apache.fineract.cn.api.util.CustomFeignClientsConfiguration;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;

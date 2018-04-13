@@ -18,10 +18,10 @@
  */
 package io.mifos.another.service;
 
-import io.mifos.anubis.config.EnableAnubis;
-import io.mifos.core.lang.config.EnableApplicationName;
-import io.mifos.core.lang.config.EnableServiceException;
-import io.mifos.core.lang.config.EnableTenantContext;
+import org.apache.fineract.cn.anubis.config.EnableAnubis;
+import org.apache.fineract.cn.lang.config.EnableApplicationName;
+import org.apache.fineract.cn.lang.config.EnableServiceException;
+import org.apache.fineract.cn.lang.config.EnableTenantContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

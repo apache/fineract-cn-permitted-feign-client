@@ -20,14 +20,13 @@ package io.mifos.permittedfeignclient.security;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import io.mifos.core.api.util.ApiConstants;
-import io.mifos.core.api.util.UserContextHolder;
-import io.mifos.core.lang.TenantContextHolder;
 import io.mifos.permittedfeignclient.annotation.EndpointSet;
 import io.mifos.permittedfeignclient.service.ApplicationAccessTokenService;
-import org.springframework.util.Assert;
-
 import javax.annotation.Nonnull;
+import org.apache.fineract.cn.api.util.ApiConstants;
+import org.apache.fineract.cn.api.util.UserContextHolder;
+import org.apache.fineract.cn.lang.TenantContextHolder;
+import org.springframework.util.Assert;
 
 /**
  * @author Myrle Krantz

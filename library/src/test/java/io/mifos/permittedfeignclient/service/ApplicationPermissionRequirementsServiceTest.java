@@ -18,21 +18,20 @@
  */
 package io.mifos.permittedfeignclient.service;
 
-import io.mifos.anubis.annotation.Permittable;
-import io.mifos.anubis.api.v1.domain.AllowedOperation;
-import io.mifos.identity.api.v1.domain.Permission;
 import io.mifos.permittedfeignclient.annotation.EndpointSet;
 import io.mifos.permittedfeignclient.api.v1.domain.ApplicationPermission;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.apache.fineract.cn.anubis.annotation.Permittable;
+import org.apache.fineract.cn.anubis.api.v1.domain.AllowedOperation;
+import org.apache.fineract.cn.identity.api.v1.domain.Permission;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.Collections;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Myrle Krantz

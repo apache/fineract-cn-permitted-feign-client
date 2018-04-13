@@ -18,16 +18,18 @@
  */
 package io.mifos.permittedfeignclient.annotation;
 
+import static org.apache.fineract.cn.api.config.ApiConfiguration.LOGGER_NAME;
+
 import feign.Feign;
 import feign.Target;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
-import io.mifos.core.api.util.AnnotatedErrorDecoder;
-import io.mifos.core.api.util.TenantedTargetInterceptor;
 import io.mifos.permittedfeignclient.security.ApplicationTokenedTargetInterceptor;
 import io.mifos.permittedfeignclient.service.ApplicationAccessTokenService;
+import org.apache.fineract.cn.api.util.AnnotatedErrorDecoder;
+import org.apache.fineract.cn.api.util.TenantedTargetInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,8 +37,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.cloud.netflix.feign.FeignClientsConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
-
-import static io.mifos.core.api.config.ApiConfiguration.LOGGER_NAME;
 
 /**
  * @author Myrle Krantz

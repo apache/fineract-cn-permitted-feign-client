@@ -18,12 +18,12 @@
  */
 package io.mifos.permittedfeignclient.service;
 
-import io.mifos.anubis.annotation.Permittable;
-import io.mifos.anubis.annotation.Permittables;
-import io.mifos.anubis.api.v1.domain.AllowedOperation;
-import io.mifos.identity.api.v1.domain.Permission;
 import io.mifos.permittedfeignclient.annotation.EndpointSet;
 import io.mifos.permittedfeignclient.api.v1.domain.ApplicationPermission;
+import org.apache.fineract.cn.anubis.annotation.Permittable;
+import org.apache.fineract.cn.anubis.annotation.Permittables;
+import org.apache.fineract.cn.anubis.api.v1.domain.AllowedOperation;
+import org.apache.fineract.cn.identity.api.v1.domain.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;

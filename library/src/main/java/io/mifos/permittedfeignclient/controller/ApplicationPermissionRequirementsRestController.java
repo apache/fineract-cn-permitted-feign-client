@@ -18,10 +18,12 @@
  */
 package io.mifos.permittedfeignclient.controller;
 
-import io.mifos.anubis.annotation.AcceptedTokenType;
-import io.mifos.anubis.annotation.Permittable;
-import io.mifos.permittedfeignclient.service.ApplicationPermissionRequirementsService;
 import io.mifos.permittedfeignclient.api.v1.domain.ApplicationPermission;
+import io.mifos.permittedfeignclient.service.ApplicationPermissionRequirementsService;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.fineract.cn.anubis.annotation.AcceptedTokenType;
+import org.apache.fineract.cn.anubis.annotation.Permittable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.*;
 
 /**
  * @author Myrle Krantz

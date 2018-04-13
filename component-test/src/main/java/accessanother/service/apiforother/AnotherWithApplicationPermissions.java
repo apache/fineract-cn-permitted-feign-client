@@ -18,9 +18,9 @@
  */
 package accessanother.service.apiforother;
 
-import io.mifos.anubis.annotation.Permittable;
 import io.mifos.permittedfeignclient.annotation.EndpointSet;
 import io.mifos.permittedfeignclient.annotation.PermittedFeignClientsConfiguration;
+import org.apache.fineract.cn.anubis.annotation.Permittable;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -19,10 +19,10 @@
 package accessanother.service;
 
 import accessanother.service.apiforother.AnotherWithApplicationPermissions;
-import io.mifos.anubis.config.EnableAnubis;
-import io.mifos.core.lang.config.EnableServiceException;
-import io.mifos.core.lang.config.EnableTenantContext;
 import io.mifos.permittedfeignclient.config.EnablePermissionRequestingFeignClient;
+import org.apache.fineract.cn.anubis.config.EnableAnubis;
+import org.apache.fineract.cn.lang.config.EnableServiceException;
+import org.apache.fineract.cn.lang.config.EnableTenantContext;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
