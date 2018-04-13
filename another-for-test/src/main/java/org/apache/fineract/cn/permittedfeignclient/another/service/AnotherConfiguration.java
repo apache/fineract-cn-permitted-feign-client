@@ -16,17 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package accessanother.service;
+package org.apache.fineract.cn.permittedfeignclient.another.service;
 
-import accessanother.service.apiforother.AnotherWithApplicationPermissions;
-import org.apache.fineract.cn.permittedfeignclient.config.EnablePermissionRequestingFeignClient;
 import org.apache.fineract.cn.anubis.config.EnableAnubis;
+import org.apache.fineract.cn.lang.config.EnableApplicationName;
 import org.apache.fineract.cn.lang.config.EnableServiceException;
 import org.apache.fineract.cn.lang.config.EnableTenantContext;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -40,12 +38,14 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableDiscoveryClient
 @EnableTenantContext
 @EnableAnubis(generateEmptyInitializeEndpoint = true)
-@EnableFeignClients(basePackages = {"accessanother.service.apiforother"})
-@RibbonClient(name = "accessanother-v1")
+@EnableApplicationName
 @EnableServiceException
-@EnablePermissionRequestingFeignClient(feignClasses = {AnotherWithApplicationPermissions.class})
 @ComponentScan({
-        "accessanother.service"
+        "org.apache.fineract.cn.permittedfeignclient.another.service"
 })
-public class AccessAnotherConfiguration {
+public class AnotherConfiguration {
+
+  public static void main(String[] args) {
+    SpringApplication.run(AnotherConfiguration.class, args);
+  }
 }

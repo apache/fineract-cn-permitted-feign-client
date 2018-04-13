@@ -22,9 +22,9 @@ import static org.apache.fineract.cn.test.env.TestEnvironment.SPRING_CLOUD_DISCO
 
 import accessanother.api.AccessAnother;
 import accessanother.service.AccessAnotherConfiguration;
-import io.mifos.another.api.Another;
-import io.mifos.permittedfeignclient.api.v1.client.ApplicationPermissionRequirements;
-import io.mifos.permittedfeignclient.api.v1.domain.ApplicationPermission;
+import org.apache.fineract.cn.permittedfeignclient.another.api.Another;
+import org.apache.finearct.cn.permittedfeignclient.api.v1.client.ApplicationPermissionRequirements;
+import org.apache.finearct.cn.permittedfeignclient.api.v1.domain.ApplicationPermission;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
