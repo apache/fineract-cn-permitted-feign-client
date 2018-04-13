@@ -1,8 +1,6 @@
 # Apache Fineract CN Permitted Feign Client Library
 
-[![Join the chat at https://gitter.im/mifos-initiative/mifos.io](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mifos-initiative/mifos.io?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-This project provides secured access to other microservices via Feign. For this it uses anubis and identity to provide refresh and access tokens transparently.
+This project provides secured access to other services via Feign. For this it uses anubis and identity to provide refresh and access tokens transparently.
 
 ## Abstract
 Apache Fineract CN is an application framework for digital financial services, a system to support nationwide and cross-national financial transactions and help to level and speed the creation of an inclusive, interconnected digital economy for every nation in the world.
