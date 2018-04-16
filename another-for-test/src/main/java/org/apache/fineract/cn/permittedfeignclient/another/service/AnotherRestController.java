@@ -16,39 +16,41 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package accessanother.service;
+package org.apache.fineract.cn.permittedfeignclient.another.service;
 
-import accessanother.service.apiforother.AnotherWithApplicationPermissions;
+import org.apache.fineract.cn.anubis.annotation.AcceptedTokenType;
 import org.apache.fineract.cn.anubis.annotation.Permittable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
  * @author Myrle Krantz
  */
 @RestController
-public class AccessAnotherRestController {
-  private final AnotherWithApplicationPermissions anotherWithApplicationPermissions;
+public class AnotherRestController {
 
-  @Autowired
-  public AccessAnotherRestController(@SuppressWarnings("SpringJavaAutowiringInspection") final AnotherWithApplicationPermissions anotherWithApplicationPermissions) {
+  private boolean fooWasPosted;
 
-    this.anotherWithApplicationPermissions = anotherWithApplicationPermissions;
+  @RequestMapping(
+          value = "/foo",
+          method = RequestMethod.POST
+  )
+  @Permittable(value = AcceptedTokenType.GUEST)
+  public @ResponseBody
+  ResponseEntity<Void> resourceThatNeedsAnotherResource() {
+    fooWasPosted = true;
+    return ResponseEntity.ok().build();
   }
 
   @RequestMapping(
-          value = "/dummy",
-          method = RequestMethod.POST
+          value = "/foo",
+          method = RequestMethod.GET
   )
-  @Permittable()
-  public @ResponseBody
-  ResponseEntity<Void> resourceThatNeedsAnotherResource() {
-    anotherWithApplicationPermissions.createFoo();
-    return ResponseEntity.ok().build();
+  @Permittable(value = AcceptedTokenType.GUEST)
+  public @ResponseBody ResponseEntity<Boolean> getFoo() {
+    return ResponseEntity.ok(fooWasPosted);
   }
 }

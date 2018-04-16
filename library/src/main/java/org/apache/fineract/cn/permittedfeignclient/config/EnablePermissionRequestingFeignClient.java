@@ -16,22 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package accessanother.api;
+package org.apache.fineract.cn.permittedfeignclient.config;
 
-import org.apache.fineract.cn.anubis.api.v1.client.Anubis;
-import org.apache.fineract.cn.api.util.CustomFeignClientsConfiguration;
-import org.springframework.cloud.netflix.feign.FeignClient;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
  * @author Myrle Krantz
  */
-@FeignClient(name="accessanother-v1", path="/accessanother/v1", configuration = CustomFeignClientsConfiguration.class)
-public interface AccessAnother extends Anubis {
-  @RequestMapping(value = "/dummy", method = RequestMethod.POST,
-          consumes = {MediaType.APPLICATION_JSON_VALUE},
-          produces = {MediaType.ALL_VALUE})
-  void createDummy();
+@SuppressWarnings({"unused", "WeakerAccess"})
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Import({
+        PermittedFeignClientBeanDefinitionRegistrar.class,
+        PermittedFeignClientImportSelector.class,
+        PermittedFeignClientConfiguration.class,
+})
+public @interface EnablePermissionRequestingFeignClient {
+  /**
+   * @return A list of classes annotated with @EndpointSet and @FeignClient
+   */
+  Class<?>[] feignClasses() default {};
 }

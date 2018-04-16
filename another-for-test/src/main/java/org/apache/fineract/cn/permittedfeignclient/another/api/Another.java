@@ -16,11 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package accessanother.service.apiforother;
+package org.apache.fineract.cn.permittedfeignclient.another.api;
 
-import org.apache.fineract.cn.permittedfeignclient.annotation.EndpointSet;
-import org.apache.fineract.cn.permittedfeignclient.annotation.PermittedFeignClientsConfiguration;
-import org.apache.fineract.cn.anubis.annotation.Permittable;
+import org.apache.fineract.cn.anubis.api.v1.client.Anubis;
+import org.apache.fineract.cn.api.util.CustomFeignClientsConfiguration;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,24 +28,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * @author Myrle Krantz
  */
-@EndpointSet(identifier = AnotherWithApplicationPermissions.ENDPOINT_SET_IDENTIFIER)
-@FeignClient(name="another-v1", path="/another/v1", configuration = PermittedFeignClientsConfiguration.class)
-public interface AnotherWithApplicationPermissions {
-  String ENDPOINT_SET_IDENTIFIER = "x";
-  String ANOTHER_FOO_PERMITTABLE_GROUP = "group_for_another";
-
+@SuppressWarnings("unused")
+@FeignClient(name="another-v1", path="/another/v1", configuration = CustomFeignClientsConfiguration.class)
+public interface Another extends Anubis {
   @RequestMapping(value = "/foo", method = RequestMethod.POST,
           consumes = {MediaType.APPLICATION_JSON_VALUE},
           produces = {MediaType.ALL_VALUE})
-  @Permittable(groupId = ANOTHER_FOO_PERMITTABLE_GROUP)
   void createFoo();
 
   @RequestMapping(value = "/foo", method = RequestMethod.GET,
           consumes = {MediaType.APPLICATION_JSON_VALUE},
           produces = {MediaType.ALL_VALUE})
-  @Permittable(groupId = ANOTHER_FOO_PERMITTABLE_GROUP)
   boolean getFoo();
-
-  //TODO: also test multiple permittables.
-  //TODO: also think about upgradeability when permission needs change.
 }

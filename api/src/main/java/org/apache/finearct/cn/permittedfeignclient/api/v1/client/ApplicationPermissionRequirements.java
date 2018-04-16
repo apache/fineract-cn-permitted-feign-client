@@ -16,22 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package accessanother.api;
+package org.apache.finearct.cn.permittedfeignclient.api.v1.client;
 
-import org.apache.fineract.cn.anubis.api.v1.client.Anubis;
-import org.apache.fineract.cn.api.util.CustomFeignClientsConfiguration;
+import org.apache.finearct.cn.permittedfeignclient.api.v1.domain.ApplicationPermission;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 /**
  * @author Myrle Krantz
  */
-@FeignClient(name="accessanother-v1", path="/accessanother/v1", configuration = CustomFeignClientsConfiguration.class)
-public interface AccessAnother extends Anubis {
-  @RequestMapping(value = "/dummy", method = RequestMethod.POST,
-          consumes = {MediaType.APPLICATION_JSON_VALUE},
-          produces = {MediaType.ALL_VALUE})
-  void createDummy();
+@SuppressWarnings({"WeakerAccess", "unused"})
+@FeignClient
+public interface ApplicationPermissionRequirements {
+  @RequestMapping(
+      value = "/requiredpermissions",
+      method = RequestMethod.GET,
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.ALL_VALUE
+  )
+  List<ApplicationPermission> getRequiredPermissions();
 }

@@ -16,26 +16,42 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import static accessanother.service.apiforother.AnotherWithApplicationPermissions.ENDPOINT_SET_IDENTIFIER;
+import static org.apache.fineract.cn.test.env.TestEnvironment.RIBBON_USES_EUREKA_PROPERTY;
+import static org.apache.fineract.cn.test.env.TestEnvironment.SPRING_CLOUD_DISCOVERY_ENABLED_PROPERTY;
+
 import accessanother.api.AccessAnother;
 import accessanother.service.AccessAnotherConfiguration;
-import io.mifos.another.api.Another;
-import io.mifos.anubis.api.v1.domain.AllowedOperation;
-import io.mifos.anubis.test.v1.TenantApplicationSecurityEnvironmentTestRule;
-import io.mifos.core.api.config.EnableApiFactory;
-import io.mifos.core.api.context.AutoUserContext;
-import io.mifos.core.api.util.ApiFactory;
-import io.mifos.core.lang.DateConverter;
-import io.mifos.core.test.env.TestEnvironment;
-import io.mifos.core.test.fixture.cassandra.CassandraInitializer;
-import io.mifos.core.test.servicestarter.EurekaForTest;
-import io.mifos.core.test.servicestarter.InitializedMicroservice;
-import io.mifos.core.test.servicestarter.IntegrationTestEnvironment;
-import io.mifos.identity.api.v1.client.IdentityManager;
-import io.mifos.identity.api.v1.domain.Authentication;
-import io.mifos.identity.api.v1.domain.Permission;
-import io.mifos.permittedfeignclient.api.v1.client.ApplicationPermissionRequirements;
-import io.mifos.permittedfeignclient.api.v1.domain.ApplicationPermission;
-import org.junit.*;
+import org.apache.fineract.cn.permittedfeignclient.another.api.Another;
+import org.apache.finearct.cn.permittedfeignclient.api.v1.client.ApplicationPermissionRequirements;
+import org.apache.finearct.cn.permittedfeignclient.api.v1.domain.ApplicationPermission;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.apache.fineract.cn.anubis.api.v1.domain.AllowedOperation;
+import org.apache.fineract.cn.anubis.test.v1.TenantApplicationSecurityEnvironmentTestRule;
+import org.apache.fineract.cn.api.config.EnableApiFactory;
+import org.apache.fineract.cn.api.context.AutoUserContext;
+import org.apache.fineract.cn.api.util.ApiFactory;
+import org.apache.fineract.cn.identity.api.v1.client.IdentityManager;
+import org.apache.fineract.cn.identity.api.v1.domain.Authentication;
+import org.apache.fineract.cn.identity.api.v1.domain.Permission;
+import org.apache.fineract.cn.lang.DateConverter;
+import org.apache.fineract.cn.test.env.TestEnvironment;
+import org.apache.fineract.cn.test.fixture.cassandra.CassandraInitializer;
+import org.apache.fineract.cn.test.servicestarter.EurekaForTest;
+import org.apache.fineract.cn.test.servicestarter.InitializedMicroservice;
+import org.apache.fineract.cn.test.servicestarter.IntegrationTestEnvironment;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
@@ -49,18 +65,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import static accessanother.service.apiforother.AnotherWithApplicationPermissions.ENDPOINT_SET_IDENTIFIER;
-import static io.mifos.core.test.env.TestEnvironment.RIBBON_USES_EUREKA_PROPERTY;
-import static io.mifos.core.test.env.TestEnvironment.SPRING_CLOUD_DISCOVERY_ENABLED_PROPERTY;
 
 /**
  * @author Myrle Krantz

@@ -16,39 +16,47 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package accessanother.service;
+package org.apache.fineract.cn.permittedfeignclient.controller;
 
-import accessanother.service.apiforother.AnotherWithApplicationPermissions;
+import org.apache.finearct.cn.permittedfeignclient.api.v1.domain.ApplicationPermission;
+import org.apache.fineract.cn.permittedfeignclient.service.ApplicationPermissionRequirementsService;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.fineract.cn.anubis.annotation.AcceptedTokenType;
 import org.apache.fineract.cn.anubis.annotation.Permittable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
  * @author Myrle Krantz
  */
 @RestController
-public class AccessAnotherRestController {
-  private final AnotherWithApplicationPermissions anotherWithApplicationPermissions;
+@RequestMapping("/requiredpermissions")
+public class ApplicationPermissionRequirementsRestController {
+
+  private final ApplicationPermissionRequirementsService service;
 
   @Autowired
-  public AccessAnotherRestController(@SuppressWarnings("SpringJavaAutowiringInspection") final AnotherWithApplicationPermissions anotherWithApplicationPermissions) {
-
-    this.anotherWithApplicationPermissions = anotherWithApplicationPermissions;
+  public ApplicationPermissionRequirementsRestController(final ApplicationPermissionRequirementsService service) {
+    this.service = service;
   }
 
+  @Permittable(AcceptedTokenType.GUEST)
   @RequestMapping(
-          value = "/dummy",
-          method = RequestMethod.POST
+      method = RequestMethod.GET,
+      consumes = MediaType.ALL_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE
   )
-  @Permittable()
-  public @ResponseBody
-  ResponseEntity<Void> resourceThatNeedsAnotherResource() {
-    anotherWithApplicationPermissions.createFoo();
-    return ResponseEntity.ok().build();
+  public
+  @ResponseBody
+  ResponseEntity<List<ApplicationPermission>> getRequiredPermissions() {
+    final List<ApplicationPermission> requiredPermissions = service.getRequiredPermissions();
+
+    return ResponseEntity.ok(new ArrayList<>(requiredPermissions));
   }
 }
