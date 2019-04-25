@@ -1,4 +1,4 @@
-# Apache Fineract CN Permitted Feign Client Library
+# Apache Fineract CN Permitted Feign Client Library [![Build Status](https://api.travis-ci.com/apache/fineract-cn-permitted-feign-client.svg?branch=develop)](https://travis-ci.com/apache/fineract-cn-permitted-feign-client)
 
 This project provides secured access to other services via Feign. For this it uses anubis and identity to provide refresh and access tokens transparently.
 
