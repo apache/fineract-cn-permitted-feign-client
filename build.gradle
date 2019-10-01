@@ -55,6 +55,14 @@ task artifactoryPublish {
     dependsOn gradle.includedBuild('component-test').task(':artifactoryPublish')
 }
 
+task clean {
+    group 'all'
+    dependsOn gradle.includedBuild('another-for-test').task(':clean')
+    dependsOn gradle.includedBuild('api').task(':clean')
+    dependsOn gradle.includedBuild('component-test').task(':clean')
+    dependsOn gradle.includedBuild('library').task(':clean')
+}
+
 task licenseFormat {
     group 'all'
     dependsOn gradle.includedBuild('api').task(':licenseFormat')
