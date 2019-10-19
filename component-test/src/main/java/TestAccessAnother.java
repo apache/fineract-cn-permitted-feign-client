@@ -93,7 +93,7 @@ public class TestAccessAnother {
   private final static EurekaForTest eurekaForTest = new EurekaForTest();
   private final static CassandraInitializer cassandraInitializer = new CassandraInitializer();
   private final static IntegrationTestEnvironment integrationTestEnvironment = new IntegrationTestEnvironment(cassandraInitializer);
-  private final static InitializedMicroservice<Another> another= new InitializedMicroservice<>(Another.class, "permitted-feign-client", "0.1.0-BUILD-SNAPSHOT", integrationTestEnvironment);
+  private final static InitializedMicroservice<Another> another= new InitializedMicroservice<>(Another.class, "permitted-feign-client", "0.1.x-SNAPSHOT", integrationTestEnvironment);
 
   @ClassRule
   public static TestRule orderedRules = RuleChain
