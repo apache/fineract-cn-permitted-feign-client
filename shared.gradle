@@ -28,7 +28,7 @@ ext.versions = [
         frameworkservicestarter : '0.1.0-BUILD-SNAPSHOT',
         jjwt                : '0.6.0',
         hibernatevalidator  : '5.3.0.Final',
-        expiringmap         : '0.5.8'
+        expiringmap         : '0.5.9'
 ]
 
 tasks.withType(JavaCompile) {
