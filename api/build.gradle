@@ -28,9 +28,9 @@ buildscript {
 
 plugins {
     id 'com.github.hierynomus.license' version '0.15.0'
-    id("org.nosphere.apache.rat") version "0.6.0"
-    id "com.jfrog.artifactory" version "4.15.5"
-    id "io.spring.dependency-management" version "1.0.9.RELEASE"
+    id 'org.nosphere.apache.rat' version '0.6.0'
+    id 'com.jfrog.artifactory' version '4.15.1'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'maven-publish'
     id 'java'
 }
