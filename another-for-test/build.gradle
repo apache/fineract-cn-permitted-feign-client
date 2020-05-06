@@ -29,6 +29,7 @@ plugins {
     id 'org.nosphere.apache.rat' version '0.6.0'
     id 'com.jfrog.artifactory' version '4.15.1'
     id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'maven-publish'
     id 'java'
     id 'idea'
@@ -36,7 +37,7 @@ plugins {
 
 apply from: '../shared.gradle'
 
-bootRepackage {
+bootJar {
     enabled = true
     classifier = 'boot'
 }
@@ -58,7 +59,7 @@ dependencies {
 }
 
 tasks.withType(PublishToMavenLocal) { task ->
-    task.dependsOn 'bootRepackage'
+    task.dependsOn 'bootJar'
 }
 
 publishing {
@@ -71,7 +72,7 @@ publishing {
         }
         bootService(MavenPublication) {
             // "boot" jar
-            artifact(file("$buildDir/libs/$project.name-$project.version-${bootRepackage.classifier}.jar"))
+            artifact(file("$buildDir/libs/$project.name-$project.version-${bootJar.classifier}.jar"))
             groupId project.group
             artifactId ("service-boot")
             version project.findProperty('externalVersion') ?: project.version

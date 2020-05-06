@@ -16,18 +16,18 @@
  */
 
 group 'org.apache.fineract.cn.permitted-feign-client'
-version '0.1.0-BUILD-SNAPSHOT'
+version 'spring_boot_2-SNAPSHOT'
 
 ext.versions = [
-        frameworktest       : '0.1.0-BUILD-SNAPSHOT',
-        frameworkapi        : '0.1.0-BUILD-SNAPSHOT',
-        frameworkcassandra  : '0.1.0-BUILD-SNAPSHOT',
-        frameworklang       : '0.1.0-BUILD-SNAPSHOT',
-        frameworkidentity   : '0.1.0-BUILD-SNAPSHOT',
-        frameworkanubis     : '0.1.0-BUILD-SNAPSHOT',
-        frameworkservicestarter : '0.1.0-BUILD-SNAPSHOT',
+        frameworktest       : 'spring_boot_2-SNAPSHOT',
+        frameworkapi        : 'spring_boot_2-SNAPSHOT',
+        frameworkcassandra  : 'spring_boot_2-SNAPSHOT',
+        frameworklang       : 'spring_boot_2-SNAPSHOT',
+        frameworkidentity   : 'spring_boot_2-SNAPSHOT',
+        frameworkanubis     : 'spring_boot_2-SNAPSHOT',
+        frameworkservicestarter : 'spring_boot_2-SNAPSHOT',
         jjwt                : '0.6.0',
-        hibernatevalidator  : '5.3.0.Final',
+        hibernatevalidator  : '6.1.4.Final',
         expiringmap         : '0.5.9'
 ]
 
@@ -44,8 +44,8 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'io.spring.platform:platform-bom:Athens-RELEASE'
-        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Camden.SR1'
+        mavenBom 'io.spring.platform:platform-bom:Cairo-SR8'
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR3'
     }
 }
 
@@ -108,7 +108,10 @@ rat {
             "**/build/**",
             "gradlew",
             "gradlew.bat",
-            "README.md"
+            "README.md",
+            ".project",
+            ".classpath",
+            "**/bin/**",
+            ".settings/**"
     ]
-    plainOutput = true
 }

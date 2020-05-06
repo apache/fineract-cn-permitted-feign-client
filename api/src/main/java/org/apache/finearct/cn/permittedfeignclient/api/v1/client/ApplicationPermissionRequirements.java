@@ -19,7 +19,7 @@
 package org.apache.finearct.cn.permittedfeignclient.api.v1.client;
 
 import org.apache.finearct.cn.permittedfeignclient.api.v1.domain.ApplicationPermission;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
